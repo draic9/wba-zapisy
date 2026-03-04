@@ -1,0 +1,7 @@
+@import url("https://fonts.googleapis.com/css?family=Inter:400,500,600,700,800,900|Bebas+Neue:400,500,600,700,800,900&subset=latin");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading: "Bebas Neue", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
