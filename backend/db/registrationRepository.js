@@ -131,6 +131,13 @@ async function clear() {
   await pool.query('TRUNCATE TABLE registrations');
 }
 
+async function countPaid() {
+  const { rows } = await pool.query(
+    "SELECT COUNT(*)::int AS count FROM registrations WHERE payment_status = 'paid'",
+  );
+  return rows[0]?.count || 0;
+}
+
 async function updatePaymentByCrc(crc, update) {
   // Pobierz aktualny stan
   const { rows } = await pool.query('SELECT * FROM registrations WHERE id = $1', [crc]);
@@ -199,5 +206,6 @@ module.exports = {
   add,
   all,
   clear,
+  countPaid,
   updatePaymentByCrc,
 };

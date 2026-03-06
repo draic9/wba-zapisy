@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { getAccessToken } = require('./tpayAuthService');
 const logger = require('../utils/logger');
+const { calculateAmount } = require('../config/pricing');
+const registrationRepository = require('../db/registrationRepository');
 
 // Produkcyjny endpoint TPay (na razie sandbox / docelowy URL z docs)
 // W razie potrzeby można go później przenieść do .env jako TPAY_TRANSACTIONS_URL
@@ -16,19 +18,6 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 const SUCCESS_URL = `${FRONTEND_URL}/zapisz-sie/sukces`;
 const FAILURE_URL = `${FRONTEND_URL}/zapisz-sie/blad`;
 
-function mapDistanceToAmount(distance) {
-	switch (distance) {
-		case '2.5km':
-			return 20.0; // 20 zł
-		case '5km':
-			return 50.0; // 50 zł
-		case '10km':
-			return 80.0; // 80 zł
-		default:
-			return 50.0;
-	}
-}
-
 async function createPayment(formData, correlationId) {
 	const token = await getAccessToken();
 
@@ -36,7 +25,8 @@ async function createPayment(formData, correlationId) {
 		throw new Error('Brak tokenu TPay – getAccessToken() zwrócił pustą wartość');
 	}
 
-	const amount = mapDistanceToAmount(formData.distance);
+	const paidCount = await registrationRepository.countPaid();
+	const amount = calculateAmount(formData, { paidCount });
 	const description = 'Wrocławski Bieg Akademicki – opłata startowa';
 
 	const payerEmail = formData.email;

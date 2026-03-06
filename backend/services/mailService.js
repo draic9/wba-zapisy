@@ -167,7 +167,7 @@ async function sendRegistrationPendingEmail({ email, name, paymentUrl }) {
     subtitle: 'Czekamy na potwierdzenie płatności',
     bodyHtml,
     footerHtml,
-    imageUrl: 'https://wroclawskibiegakademicki.pl/plain-assets/runner1.png',
+    imageUrl: 'https://wroclawskibiegakademicki.pl/plain-assets/images/runner1.png',
   });
 
   await transporter.sendMail({
@@ -214,7 +214,7 @@ async function sendPaymentSuccessEmail({ email, name, amount, distance }) {
     subtitle: 'Dziękujemy z całego serca',
     bodyHtml,
     footerHtml,
-    imageUrl: 'https://wroclawskibiegakademicki.pl/plain-assets/runner2.png',
+    imageUrl: 'https://wroclawskibiegakademicki.pl/plain-assets/images/runner2.png',
   });
 
   await transporter.sendMail({
